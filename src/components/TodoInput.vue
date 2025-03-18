@@ -29,7 +29,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    onAdd () {
+    onAdd: function () {
       const input1 = document.getElementById('color1') as HTMLInputElement
       const input2 = document.getElementById('color2') as HTMLInputElement
       const input3 = document.getElementById('color3') as HTMLInputElement
@@ -52,29 +52,29 @@ export default Vue.extend({
       }
     }
   },
-  beforeCreate () {
-    console.log('beforeCreate')
+  beforeCreate: function () {
+    console.log('TodoInput beforeCreate')
   },
-  created () {
-    console.log('created')
+  created: function () {
+    console.log('TodoInput created')
   },
-  beforeMount () {
-    console.log('beforeMount')
+  beforeMount: function () {
+    console.log('TodoInput beforeMount')
   },
-  async mounted () {
-    console.log('mounted')
+  mounted: async function () {
+    console.log('TodoInput mounted')
   },
-  beforeUpdate () {
-    console.log('beforeUpdate')
+  beforeUpdate: function () {
+    console.log('TodoInput beforeUpdate')
   },
-  updated () {
-    console.log('updated')
+  updated: function () {
+    console.log('TodoInput updated')
   },
-  beforeUnmount () {
-    console.log('beforeUnmount')
+  beforeDestroy: function () {
+    console.log('TodoInput beforeDestroy')
   },
-  unmounted () {
-    console.log('unmounted')
+  destroyed: function () {
+    console.log('TodoInput destroyed')
   }
 })
 </script>

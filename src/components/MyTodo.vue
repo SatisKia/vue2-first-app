@@ -18,6 +18,7 @@ import Vue from 'vue'
 import { Todo } from '@/types/todo'
 import TodoInput from '@/components/TodoInput.vue'
 import TodoLabel from '@/components/TodoLabel.vue'
+import MyCookie from '@/plugins/Cookie'
 
 export default Vue.extend({
   components: {
@@ -31,13 +32,44 @@ export default Vue.extend({
   },
   methods: {
     loadData: async function () {
+      console.log('loadData')
+
       // データの読み込み処理
       this.todoList = [] as Todo[]
-      console.log('loadData')
+      const cookie: MyCookie = new MyCookie()
+      for (let i = 0; ; i++) {
+        const id = cookie.getValue('id' + i, '')
+        if (id.length === 0) {
+          break
+        }
+        const done = cookie.getBool('done' + i, false)
+        const date = new Date(cookie.getNumber('date' + i, 0))
+        const text = cookie.getValue('text' + i, '')
+        const color = cookie.getValue('color' + i, '')
+        this.todoList.push({
+          id: id,
+          done: done,
+          date: date,
+          text: text,
+          color: color
+        })
+      }
     },
     saveData: function () {
-      // データの書き込み処理
       console.log('saveData')
+
+      // データの書き込み処理
+      const cookie: MyCookie = new MyCookie()
+      let i = 0
+      for (; i < this.todoList.length; i++) {
+        const todo = this.todoList[i]
+        cookie.setValue('id' + i, todo.id)
+        cookie.setBool('done' + i, todo.done)
+        cookie.setNumber('date' + i, todo.date.getTime())
+        cookie.setValue('text' + i, todo.text)
+        cookie.setValue('color' + i, todo.color)
+      }
+      cookie.setValue('id' + i, '')
     },
     addTodo: function (text: string, color: string) {
       this.todoList = [...this.todoList, {
@@ -62,38 +94,38 @@ export default Vue.extend({
     }
   },
   computed: {
-    sortedTodo (): Todo[] {
+    sortedTodo: function (): Todo[] {
       return this.todoList.slice().sort((a, b) => {
         return b.date.getTime() - a.date.getTime()
       })
     }
   },
-  beforeCreate () {
-    console.log('beforeCreate')
+  beforeCreate: function () {
+    console.log('MyTodo beforeCreate')
   },
-  created () {
-    console.log('created')
+  created: function () {
+    console.log('MyTodo created')
   },
-  beforeMount () {
-    console.log('beforeMount')
+  beforeMount: function () {
+    console.log('MyTodo beforeMount')
   },
-  async mounted () {
-    console.log('mounted')
+  mounted: async function () {
+    console.log('MyTodo mounted')
 
     // データの読み込み
     await this.loadData()
   },
-  beforeUpdate () {
-    console.log('beforeUpdate')
+  beforeUpdate: function () {
+    console.log('MyTodo beforeUpdate')
   },
-  updated () {
-    console.log('updated')
+  updated: function () {
+    console.log('MyTodo updated')
   },
-  beforeUnmount () {
-    console.log('beforeUnmount')
+  beforeDestroy: function () {
+    console.log('MyTodo beforeDestroy')
   },
-  unmounted () {
-    console.log('unmounted')
+  destroyed: function () {
+    console.log('MyTodo destroyed')
   }
 })
 </script>
