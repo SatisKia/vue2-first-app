@@ -86,9 +86,11 @@ export default Vue.extend({
       this.saveData()
     },
     doneTodo: function (id: string) {
-      const todo = this.todoList.find(todo => todo.id === id)
+      const todoList = this.todoList.slice()
+      const todo = todoList.find(todo => todo.id === id)
       if (todo) {
         todo.done = !todo.done
+        this.todoList = todoList
         this.saveData()
       }
     }
