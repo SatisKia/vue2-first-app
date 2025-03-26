@@ -86,18 +86,18 @@ export default Vue.extend({
       this.saveData()
     },
     doneTodo: function (id: string) {
-      const todoList = this.todoList.slice()
-      const todo = todoList.find(todo => todo.id === id)
+      const todo = this.todoList.find(todo => todo.id === id)
       if (todo) {
         todo.done = !todo.done
-        this.todoList = todoList
         this.saveData()
       }
     }
   },
   computed: {
     sortedTodo: function (): Todo[] {
-      return this.todoList.slice().sort((a, b) => {
+      // 算出プロパティではデータを直接変更することができないため、sliceで配列をコピー
+      const todoList = this.todoList.slice()
+      return todoList.sort((a, b) => {
         return b.date.getTime() - a.date.getTime()
       })
     }
